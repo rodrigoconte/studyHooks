@@ -1,14 +1,32 @@
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
-
+import { getHeader, getSellers } from "../../../Services/LoadData";
 import logo from "../../../assets/logo.png"
 
-export default function Header() {
-    return <View style={styles.header}>
+class Header extends React.Component {
+    state = {
+        header: {
+            welcome: "",
+            headline: ""
+        }
+    }
+
+    updateHeader() {
+        const headerData = getHeader();
+        this.setState({ header: headerData });
+    }
+    
+    componentDidMount() {
+        this.updateHeader();
+    }
+
+    render() {
+        return <View style={styles.header}>
         <Image source={logo} style={styles.image} />
-        <Text style={styles.titleHeader}>Olá, Rodrigo</Text>
-        <Text style={styles.headline}>Encontre os melhores produtores</Text>
+        <Text style={styles.titleHeader}>{this.state.header.welcome}</Text>
+        <Text style={styles.headline}>{this.state.header.headline}</Text>
         </View>
+    }
 }
 
 const styles = StyleSheet.create ({
@@ -31,3 +49,5 @@ const styles = StyleSheet.create ({
         lineHeight: 26
     }
 })
+
+export default Header;
